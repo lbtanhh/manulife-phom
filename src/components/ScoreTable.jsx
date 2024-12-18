@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import { RoundRow } from "./RoundRow";
 import { specialButtons } from "../constants/button";
@@ -8,6 +8,13 @@ const ScoreTable = ({ players }) => {
   const [playerNames, setPlayerNames] = useState(players);
   const [scores, setScores] = useState(players.map(() => 0));
   const [rounds, setRounds] = useState([]);
+
+    useEffect(() => {
+      localStorage.setItem("scores", JSON.stringify(scores));
+    }, [scores]);
+    
+    localStorage.setItem("playerNames", JSON.stringify(playerNames));
+
 
   const handleAddRound = (roundScores) => {
     const updatedScores = scores.map((score, idx) => score + roundScores[idx]);

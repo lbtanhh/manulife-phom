@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./../index.css";
+import { RoundRow } from "./RoundRow";
 
 const PlayerSelector = ({ onSelect }) => {
   const defaultPlayers = [
@@ -14,6 +15,11 @@ const PlayerSelector = ({ onSelect }) => {
   const [players, setPlayers] = useState([...defaultPlayers]);
   const [selected, setSelected] = useState([]);
   const [newPlayer, setNewPlayer] = useState("");
+
+  const savedScores = JSON.parse(localStorage.getItem("scores") || "[]");
+  const savedPlayerNames = JSON.parse(
+    localStorage.getItem("playerNames") || "[]"
+  );
 
   const handleAddPlayer = () => {
     if (newPlayer.trim() && !players.includes(newPlayer)) {
@@ -69,6 +75,28 @@ const PlayerSelector = ({ onSelect }) => {
       >
         Bắt đầu
       </button>
+
+      {savedScores.length !== 0 && savedPlayerNames.length !== 0 && (
+        <div className="score-table">
+          <h2>Tổng điểm ván trước</h2>
+          <table>
+            <thead>
+              <tr>
+                {savedPlayerNames?.map((name, idx) => (
+                  <th key={idx}>{name}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="total-row">
+                {savedScores.map((score, idx) => (
+                  <td key={idx}>{score}</td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
